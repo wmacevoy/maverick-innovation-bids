@@ -160,14 +160,3 @@ class Table:
             rows = csv.DictReader(csvFile)
             for row in rows:
                 self.insertOrUpdate(row)
-
-if __name__ == '__main__':
-    table=Table()
-    for arg in sys.argv[1:]:
-        if arg == "--test":
-            table.db = db.config.TEST
-            continue
-        if arg == "--trace":
-            table.trace = True
-            continue
-        table.csvImport(arg)
