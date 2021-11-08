@@ -15,3 +15,12 @@ FILTERS = {
     COL_DESCRIPTION: lambda x : str(x),
     COL_MIN_OFFER: lambda x : float(x) if float(x) >= 0 else valerr("negative")
     }
+
+CREATE=f"""
+create table if not exists {TABLE_NAME} (
+    {COL_ID} integer primary key,
+    {COL_NAME} text,
+    {COL_QUANTITY} integer,
+    {COL_DESCRIPTION} text,
+    {COL_MIN_OFFER} float)
+"""
