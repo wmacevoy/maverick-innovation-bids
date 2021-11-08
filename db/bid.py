@@ -1,10 +1,12 @@
+#!/usr/bin/env python
+
 import sqlite3
 import sys,csv
 import db.config
 from db.schema.bid import *
 
-import db.user
 import db.item
+import db.user
 
 class Table:
     def __init__(self):
@@ -22,7 +24,6 @@ class Table:
         if self._connection != None:
             self._connection.close()
             self._connection = None
-
 
     @property
     def trace(self):
@@ -52,32 +53,30 @@ class Table:
             self._connection = sqlite3.connect(self.db)
         return self._connection
 
-    def execute(self,sql,params=()):
-        connection=self.connection
+    @connection.setter
+    def connection(self,value):
+        self.close()
+        self._connection = value
 
     def drop(self):
-        cursor = self.connection.cursor()
         sql = f"drop table if exists {TABLE_NAME}"
         params = {}
-        cursor.execute(sql,params)
-        self.commit()
+        self.execute(sql,params)
 
     def create(self):
-        cursor = self.connection.cursor()
-        sql = f"""
-            create table if not exists {TABLE_NAME} (
-                {COL_ID} integer primary key,
-                {COL_TIMESTAMP} text,
-                {COL_USER_ID} integer,
-                {COL_ITEM_ID} integer,
-                {COL_OFFER} float)
-        """
-        params={}
-        cursor.execute(sql,params)
-        self.commit()
+        self.execute(CREATE)
+
+    def execute(self,sql,params={},commit=True):
+        if (self._trace or True):
+            print(f"execute sql={sql}; params={params}")
+        connection=self.connection
+        cursor=connection.cursor()
+        result=cursor.execute(sql,params)
+        if commit:
+            self.commit()
+        return (cursor,result)
 
     def insert(self,values):
-        cursor = self.connection.cursor()
         cols = FILTERS.keys()
         noIdCols=[]
         for col in cols:
@@ -95,10 +94,10 @@ class Table:
         params = {}
         for col in noIdCols:
             params[col]=FILTERS[col](values[col])
-        if self._trace: print(f"sql: {sql} params: {params}")
-        cursor.execute(sql,params)
-        self.commit()
-        return cursor.lastrowid
+        (cursor,result)=self.execute(sql,params)
+        id = cursor.lastrowid
+        if self._trace: print(f"id={id}")
+        return id
 
     def update(self,values):
         params = {}
@@ -115,19 +114,33 @@ class Table:
 
         setstr = ",".join(sets)
         sql = f"update {TABLE_NAME} set {setstr} where {COL_ID}=:{COL_ID}"
-        if self._trace: print(f"sql: {sql} params: {params}")
- 
-        cursor = self.connection.cursor()
-        cursor.execute(sql,params)
-        self.commit()
+        self.execute(sql,params)
 
     def select(self,what,where,params):
         sql = f"select {what} from {TABLE_NAME} where {where}"
-        if self._trace: print(f"sql: {sql} params: {params}")
-        cursor = self.connection.cursor()
-        cursor.execute(sql,params)
+        (cursor,result)=self.execute(sql,params)
         return cursor.fetchall()
 
+    def row(self,id):
+        params = {}
+        selects = []
+
+        for col in FILTERS:
+            selects.append(col)
+        sql = f"select {','.join(selects)} from {TABLE_NAME} where {COL_ID}=:{COL_ID}"
+        params = {COL_ID: FILTERS[COL_ID](id)}
+        (cursor,result)=self.execute(sql,params)
+        all=cursor.fetchall()
+        if len(all) == 1:
+            index = 0
+            ans = {}
+            for col in FILTERS:
+                ans[col]=all[0][index]
+                index += 1
+            return ans
+        else:
+            return None
+            
     def selectIdsByTimestampUserItem(self,timestamp,userId,itemId):
         what = COL_ID
         where = f"""{COL_TIMESTAMP}=:{COL_TIMESTAMP} and {COL_USER_ID}=:{COL_USER_ID} and {COL_ITEM_ID}=:{COL_ITEM_ID}"""
@@ -188,3 +201,9 @@ class Table:
             rows = csv.DictReader(csvFile)
             for row in rows:
                 self.insertOrUpdate(row)
+                
+    def __enter__(self):
+        return self
+
+    def __exit__(self ,type, value, traceback):
+        self.close()

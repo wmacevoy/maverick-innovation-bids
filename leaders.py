@@ -45,6 +45,21 @@ print()
 print(f"Updated {utcnow} UTC.")
 print()
 
+def nme(name):
+    ucn=""
+    ws=True
+    for letter in name:
+        if letter == ' ':
+            ws = True
+        elif ws:
+            ucn += letter.upper()
+        ws = False
+    return ucn
+
+def eml(email):
+    at = email.find('@')
+    return email[0:min(2,at)]+"..@.."+email[max(at+3,len(email)-4):]
+
 for (itemId,) in items:
     details=itemDetails(itemId)
     print(f"## Leaders for {details['item.name']}")
@@ -62,6 +77,10 @@ for (itemId,) in items:
         rank=0
         for result in results:
             rank += 1
-            print(f"|{rank}|{result['bid.timestamp']}|{result['bid.offer']}|{result['user.name']}|{result['user.email']}|")
+            timestamp=result['bid.timestamp']
+            offer=result['bid.offer']
+            n=nme(result['user.name'])
+            e=eml(result['user.email'])
+            print(f"|{rank}|{timestamp}|{offer}|{n}|{e}|")
     print()
 

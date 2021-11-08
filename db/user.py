@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import sqlite3
-import csv,csv
+import sys,csv
 import db.config
 from db.schema.user import *
 
@@ -30,7 +30,6 @@ class Table:
     def trace(self,value):
         self._trace = value
     
-
     @property
     def db(self):
         if self._db == None:
@@ -56,30 +55,25 @@ class Table:
         self.close()
         self._connection = value
 
-    def execute(self,sql,params=()):
-        connection=self.connection
-
     def drop(self):
-        cursor = self.connection.cursor()
         sql = f"drop table if exists {TABLE_NAME}"
         params = {}
-        cursor.execute(sql,params)
-        self.commit()
+        self.execute(sql,params)
 
     def create(self):
-        cursor = self.connection.cursor()
-        sql = f"""
-            create table if not exists {TABLE_NAME} (
-                {COL_ID} integer primary key,
-                {COL_NAME} text,
-                {COL_EMAIL} text)
-        """
-        params={}
-        cursor.execute(sql,params)
-        self.commit()
+        self.execute(CREATE)
+
+    def execute(self,sql,params={},commit=True):
+        if (self._trace or True):
+            print(f"execute sql={sql}; params={params}")
+        connection=self.connection
+        cursor=connection.cursor()
+        result=cursor.execute(sql,params)
+        if commit:
+            self.commit()
+        return (cursor,result)
 
     def insert(self,values):
-        cursor = self.connection.cursor()
         cols = FILTERS.keys()
         noIdCols=[]
         for col in cols:
@@ -97,10 +91,10 @@ class Table:
         params = {}
         for col in noIdCols:
             params[col]=FILTERS[col](values[col])
-        if self._trace: print(f"sql: {sql} params: {params}")
-        cursor.execute(sql,params)
-        self.commit()
-        return cursor.lastrowid
+        (cursor,result)=self.execute(sql,params)
+        id = cursor.lastrowid
+        if self._trace: print(f"id={id}")
+        return id
 
     def update(self,values):
         params = {}
@@ -117,18 +111,35 @@ class Table:
 
         setstr = ",".join(sets)
         sql = f"update {TABLE_NAME} set {setstr} where {COL_ID}=:{COL_ID}"
-        if self._trace: print(f"sql: {sql} params: {params}")
- 
-        cursor = self.connection.cursor()
-        cursor.execute(sql,params)
-        self.commit()
+        self.execute(sql,params)
 
     def select(self,what,where,params):
         sql = f"select {what} from {TABLE_NAME} where {where}"
-        if self._trace: print(f"sql: {sql} params: {params}")
-        cursor = self.connection.cursor()
-        cursor.execute(sql,params)
+        (cursor,result)=self.execute(sql,params)
         return cursor.fetchall()
+
+    def row(self,id):
+        params = {}
+        selects = []
+
+        for col in FILTERS:
+            selects.append(col)
+        sql = f"select {','.join(selects)} from {TABLE_NAME} where {COL_ID}=:{COL_ID}"
+        params = {COL_ID: FILTERS[COL_ID](id)}
+        (cursor,result)=self.execute(sql,params)
+        all=cursor.fetchall()
+        if len(all) == 1:
+            index = 0
+            ans = {}
+            for col in FILTERS:
+                ans[col]=all[0][index]
+                index += 1
+            return ans
+        else:
+            return None
+            
+    def selectIdsByName(self,name):
+        return self.select(COL_ID,f"{COL_NAME}=:{COL_NAME}",{COL_NAME:FILTERS[COL_NAME](name)})
 
     def selectIdsByEMail(self,name):
         return self.select(COL_ID,f"{COL_EMAIL}=:{COL_EMAIL}",{COL_EMAIL:FILTERS[COL_EMAIL](name)})
@@ -160,3 +171,9 @@ class Table:
             rows = csv.DictReader(csvFile)
             for row in rows:
                 self.insertOrUpdate(row)
+                
+    def __enter__(self):
+        return self
+
+    def __exit__(self ,type, value, traceback):
+        self.close()
