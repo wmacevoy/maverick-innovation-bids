@@ -72,6 +72,7 @@ for (itemId,) in items:
     if len(results) == 0:
         print(f"No bids exceed minimum.")
     else:
+        print()
         print(f"|Rank|Time|Bid|Name|EMail|")
         print(f"|----|----|---|----|-----|")        
         rank=0
@@ -82,5 +83,6 @@ for (itemId,) in items:
             n=nme(result['user.name'])
             e=eml(result['user.email'])
             print(f"|{rank}|{timestamp}|{offer}|{n}|{e}|")
+            print()
     print()
 
