@@ -67,11 +67,11 @@ order by bid.offer desc,bid.timestamp desc limit :quantity
         dictResults=[]
         for result in results:
             (bidId,bidTimestamp,bidOffer,userId,userName,userEMail,itemId,itemName)=result
-        dictResults.append({
-            'bid.id': bidId, 'bid.timestamp':bidTimestamp, 'bid.offer': bidOffer,
-            'user.id':userId,'user.name':userName,'user.email':userEMail,
-            'item.id':itemId,'item.name':itemName
-        })
+            dictResults.append({
+                'bid.id': bidId, 'bid.timestamp':bidTimestamp, 'bid.offer': bidOffer,
+                'user.id':userId,'user.name':userName,'user.email':userEMail,
+                'item.id':itemId,'item.name':itemName
+            })
         return dictResults
     
     def items(self):
@@ -83,9 +83,8 @@ order by bid.offer desc,bid.timestamp desc limit :quantity
 
     def title(self):
         utcnow=datetime.utcnow().isoformat()
-        str = f"""
-        # Bid Leaderboard as of {utcnow}
-        """
+        str = f"""# Bid Leaderboard as of {utcnow}
+"""
         return str
 
     def nme(self,name):
@@ -108,23 +107,23 @@ order by bid.offer desc,bid.timestamp desc limit :quantity
 
     def itemHeading(self,itemId):
         details=self.item.row(itemId)
-        heading = f"""
-        ## Item #{details['id']} - {details['name']} ({details['minOffer']} minimum)
+        heading = f"""## Item #{details['id']} - {details['name']} ({details['minOffer']} minimum)
 
-        {details['description']}
+{details['description']}
 
-        """
+"""
         return heading
 
     def itemLeaders(self,itemId):
         results=self.leaders(itemId)
         if len(results) == 0:
-            return f"No bids exceed minimum."
+            return f"""No bids exceed minimum.
+
+"""
         else:
-            str = f"""
-            |Rank|Time|Bid|Name|EMail|"
-            |----|----|---|----|-----|
-            """
+            str = f"""|Rank|Time|Bid|Name|EMail|
+|----|----|---|----|-----|
+"""
         rank=0
         for result in results:
             rank += 1
@@ -132,9 +131,10 @@ order by bid.offer desc,bid.timestamp desc limit :quantity
             offer=result['bid.offer']
             n=self.nme(result['user.name'])
             e=self.eml(result['user.email'])
-            str += f"""
-            |{rank}|{timestamp}|{offer}|{n}|{e}|
-            """
+            str += f"""|{rank}|{timestamp}|{offer}|{n}|{e}|
+"""
+        str += f"""
+"""
         return str
     def markdown(self):
         str = ""
@@ -146,7 +146,17 @@ order by bid.offer desc,bid.timestamp desc limit :quantity
 
 if __name__ == '__main__':
     leaders = Leaders()
-    if len(sys.argv) >= 2 and sys.argv[1] == "--private":
-        leaders.public = False
-    str = leaders.markdown()
-    print(str)
+    for arg in sys.argv[1:]:
+        if arg == "--trace": 
+            leaders.trace = True
+            continue
+        if arg == "--test":
+            leaders.db = db.config.TEST
+            continue
+
+        if arg == "--private":
+            leaders.public = False
+            continue
+
+        if arg == "--markdown":
+            print(leaders.markdown())

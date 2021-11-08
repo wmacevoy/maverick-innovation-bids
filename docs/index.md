@@ -1,59 +1,36 @@
-execute sql=select id from item where 1=1; params={}
-# Bid Leaderboard
-
-Updated 2021-11-08T00:33:39.966442 UTC.
-
-execute sql=select name,description,minOffer,quantity from item where id=:id; params={'id': 1}
-## Leaders for Microsoft Surface
+# Bid Leaderboard as of 2021-11-08T05:33:00.439827
+## Item #1 - Microsoft Surface (10.0 minimum)
 
 windows surface and docking station
 
-Minimum bid: 10.0
-
-execute sql=select minOffer,quantity from item where id=:id; params={'id': 1}
 |Rank|Time|Bid|Name|EMail|
 |----|----|---|----|-----|
-|1|2021-11-06T11:59:47|48.0|W|wm..@...edu|
+|1|2021-11-06T11:59:47|48.0|WM|wma..@..mesa.edu|
 
-execute sql=select name,description,minOffer,quantity from item where id=:id; params={'id': 2}
-## Leaders for iMac
+## Item #2 - iMac (10.0 minimum)
 
 2015 iMac
 
-Minimum bid: 10.0
-
-execute sql=select minOffer,quantity from item where id=:id; params={'id': 2}
 No bids exceed minimum.
 
-execute sql=select name,description,minOffer,quantity from item where id=:id; params={'id': 3}
-## Leaders for HP Desktop
+## Item #3 - HP Desktop (5.0 minimum)
 
 Desktop
 
-Minimum bid: 5.0
-
-execute sql=select minOffer,quantity from item where id=:id; params={'id': 3}
 No bids exceed minimum.
 
-execute sql=select name,description,minOffer,quantity from item where id=:id; params={'id': 4}
-## Leaders for HP Mini
+## Item #4 - HP Mini (10.0 minimum)
 
 Mini
 
-Minimum bid: 10.0
-
-execute sql=select minOffer,quantity from item where id=:id; params={'id': 4}
 No bids exceed minimum.
 
-execute sql=select name,description,minOffer,quantity from item where id=:id; params={'id': 5}
-## Leaders for HP All-In-One
+## Item #5 - HP All-In-One (10.0 minimum)
 
 One
 
-Minimum bid: 10.0
-
-execute sql=select minOffer,quantity from item where id=:id; params={'id': 5}
 |Rank|Time|Bid|Name|EMail|
 |----|----|---|----|-----|
-|1|2021-11-06T11:59:07|99.99|W|wm..@...edu|
+|1|2021-11-06T11:59:07|99.99|WM|wma..@..mesa.edu|
+
 
