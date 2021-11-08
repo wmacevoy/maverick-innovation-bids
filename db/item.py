@@ -64,7 +64,7 @@ class Table:
         self.execute(CREATE)
 
     def execute(self,sql,params={},commit=True):
-        if (self._trace or True):
+        if (self._trace):
             print(f"execute sql={sql}; params={params}")
         connection=self.connection
         cursor=connection.cursor()
@@ -137,7 +137,7 @@ class Table:
             return ans
         else:
             return None
-            
+
     def selectIdsByName(self,name):
         return self.select(COL_ID,f"{COL_NAME}=:{COL_NAME}",{COL_NAME:FILTERS[COL_NAME](name)})
 
