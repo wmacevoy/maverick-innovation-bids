@@ -11,6 +11,7 @@ ALIASES = {
     'timestamp' : ['bid.timestamp','Timestamp'],
     'user.name' : ['user.name','What is your name?'],
     'user.email' : ['user.email','What is your Colorado Mesa University email address?'],
+
     'item.name' : ['item.name','What are you bidding for (one item per submission)'],
     'offer' : ['bid.offer','What is your offer for this item?']
 }
@@ -63,6 +64,7 @@ def csvFormImport(csvFileName,dbName=db.config.DEFAULT,trace=False):
                 for formCol in ALIASES[dbCol]:
                     if formCol in formRow:
                         dbRow[dbCol]=formRow[formCol]
+            if trace: print(dbRow)
             dbRow['timestamp']=googleform2isoformat.googleform2isoformat(dbRow['timestamp'])
             table.insertOrUpdate(dbRow)
 
