@@ -1,5 +1,9 @@
+#!/usr/bin/env python
+
 from __future__ import print_function
 import os.path
+import pathlib
+import csv
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
@@ -28,7 +32,7 @@ def main():
             creds.refresh(Request())
         else:
             flow = InstalledAppFlow.from_client_secrets_file(
-                '/home/user/.google/sheets.json', SCOPES)
+                str(pathlib.Path.home() / ".google" / "sheets.json"), SCOPES)
             creds = flow.run_local_server(port=0)
         # Save the credentials for the next run
         with open('token.json', 'w') as token:
@@ -42,11 +46,10 @@ def main():
                                 range=SAMPLE_RANGE_NAME).execute()
     values = result.get('values', [])
 
-    if not values:
-        print('No data found.')
-    else:
+    with open("responses.csv","w") as csvFile:
+        writer=csv.writer(csvFile)
         for row in values:
-            print(",".join(row))
+            writer.writerow(row)
 
 if __name__ == '__main__':
     main()

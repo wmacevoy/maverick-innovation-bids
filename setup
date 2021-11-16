@@ -22,16 +22,15 @@ eval "$("$HOME/miniconda3/bin/conda" shell.bash hook)"
 
 if [ ! -d "$DIR/env" ]
 then
-    conda create -y -p "$DIR/env" python flask
+    conda create -y -p "$DIR/env" python=3.9 sqlite
+    conda activate "$DIR/env"
+    "$DIR/env/bin/pip" install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
 fi
 
-connda activate "$DIR/env"
+conda activate "$DIR/env"
 
 if [ ! -f "$DIR/bids.db" ]
 then
-    sqlite3 "$DIR/bids.db" <<END
-create table items (
-  id 
-)
-END
+    python csvImport.py --create
 fi
+
