@@ -18,7 +18,9 @@ fi
 
 eval "$("$HOME/miniconda3/bin/conda" shell.bash hook)"
 
-conda activate "$DIR/env"
+cd "$DIR"
+
+conda activate ./env
 
 python responses.py
 
