@@ -1,4 +1,4 @@
-# Bid Leaderboard as of 2021-11-19T21:50:03.862947
+# Bid Leaderboard as of 2021-11-20T06:50:03.690144
 ## Item #1 - HP EliteDesk 800 G1 (100.0 minimum)
 
 [HP](https://support.hp.com/us-en/document/c03836666) [(pics)](HP EliteDesk 800 G1/index.md) NO OPERATING SYSTEM 8GB RAM i7 CPU 500GB HDD.
