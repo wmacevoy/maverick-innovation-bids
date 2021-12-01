@@ -65,6 +65,7 @@ def csvFormImport(csvFileName,dbName=db.config.DEFAULT,trace=False):
                     if formCol in formRow:
                         dbRow[dbCol]=formRow[formCol]
             if trace: print(dbRow)
+            if dbRow['timestamp'] == '': continue
             dbRow['timestamp']=googleform2isoformat.googleform2isoformat(dbRow['timestamp'])
             table.insertOrUpdate(dbRow)
 
