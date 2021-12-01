@@ -1,4 +1,4 @@
-# Bid Leaderboard as of 2021-12-01T05:56:00.618505
+# Bid Leaderboard as of 2021-12-01T17:52:50.697990
 ## Item #1 - HP EliteDesk 800 G1 (100.0 minimum)
 
 [HP](https://support.hp.com/us-en/document/c03836666) [(pics)](HP EliteDesk 800 G1/index.md) NO OPERATING SYSTEM 8GB RAM i7 CPU 500GB HDD.
@@ -13,7 +13,8 @@
 
 |Rank|Time|Bid|Name|EMail|
 |----|----|---|----|-----|
-|1|2021-11-30T15:47:02|50.0|ZM|zmm..@..mesa.edu|
+|1|2021-12-01T17:30:10|75.0|TB|tbe..@..mesa.edu|
+|2|2021-11-30T15:47:02|50.0|ZM|zmm..@..mesa.edu|
 
 ## Item #3 - HP Z230 Workstation (100.0 minimum)
 
@@ -21,7 +22,8 @@
 
 |Rank|Time|Bid|Name|EMail|
 |----|----|---|----|-----|
-|1|2021-11-23T01:05:48|100.0|DF|djf..@..mesa.edu|
+|1|2021-12-01T17:36:12|100.0|WM|wma..@..mesa.edu|
+|2|2021-11-23T01:05:48|100.0|DF|djf..@..mesa.edu|
 
 ## Item #4 - Microsoft Surface Pro 3 (100.0 minimum)
 
@@ -29,11 +31,11 @@
 
 |Rank|Time|Bid|Name|EMail|
 |----|----|---|----|-----|
-|1|2021-11-30T17:45:41|151.0|S|sba..@..mesa.edu|
-|2|2021-11-30T17:23:41|115.0|AH|Aph..@..mesa.edu|
-|3|2021-11-30T05:53:30|110.0|AH|aph..@..mesa.edu|
-|4|2021-11-29T23:41:20|105.0|CW|crw..@..mesa.edu|
-|5|2021-11-30T23:15:34|100.0|EJC|ejc..@..mesa.edu|
+|1|2021-12-01T16:04:16|155.0|AH|aph..@..mesa.edu|
+|2|2021-11-30T17:45:41|151.0|S|sba..@..mesa.edu|
+|3|2021-12-01T17:34:50|120.0|WM|wma..@..mesa.edu|
+|4|2021-11-30T17:23:41|115.0|AH|Aph..@..mesa.edu|
+|5|2021-11-30T05:53:30|110.0|AH|aph..@..mesa.edu|
 
 ## Item #5 - iMac 27-inch,Late 2013 (250.0 minimum)
 
@@ -43,5 +45,7 @@
 |----|----|---|----|-----|
 |1|2021-11-19T20:42:15|455.0|SA|san..@..mesa.edu|
 |2|2021-11-19T20:39:33|450.0|SA|san..@..mesa.edu|
+|3|2021-12-01T17:37:06|250.0|WM|wma..@..mesa.edu|
+|4|2021-12-01T17:32:40|250.0|TB|tbe..@..mesa.edu|
 
 
