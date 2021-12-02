@@ -1,4 +1,4 @@
-# Bid Leaderboard as of 2021-12-01T17:52:50.697990
+# Bid Leaderboard as of 2021-12-02T16:23:32.581410
 ## Item #1 - HP EliteDesk 800 G1 (100.0 minimum)
 
 [HP](https://support.hp.com/us-en/document/c03836666) [(pics)](HP EliteDesk 800 G1/index.md) NO OPERATING SYSTEM 8GB RAM i7 CPU 500GB HDD.
@@ -33,9 +33,9 @@
 |----|----|---|----|-----|
 |1|2021-12-01T16:04:16|155.0|AH|aph..@..mesa.edu|
 |2|2021-11-30T17:45:41|151.0|S|sba..@..mesa.edu|
-|3|2021-12-01T17:34:50|120.0|WM|wma..@..mesa.edu|
-|4|2021-11-30T17:23:41|115.0|AH|Aph..@..mesa.edu|
-|5|2021-11-30T05:53:30|110.0|AH|aph..@..mesa.edu|
+|3|2021-12-01T18:45:49|128.0|CW|crw..@..mesa.edu|
+|4|2021-12-01T17:34:50|120.0|WM|wma..@..mesa.edu|
+|5|2021-11-30T17:23:41|115.0|AH|Aph..@..mesa.edu|
 
 ## Item #5 - iMac 27-inch,Late 2013 (250.0 minimum)
 
